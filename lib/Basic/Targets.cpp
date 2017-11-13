@@ -7556,6 +7556,21 @@ public:
     // R0=ExceptionPointerRegister R1=ExceptionSelectorRegister
     return -1;
   }
+  bool setCPU(const std::string &Name) override {
+    auto knownCpu = llvm::StringSwitch<bool>(Name)
+                        .Case("leg1", true)
+                        .Case("leg2", true)
+                        .Default(false);
+
+    if (!knownCpu)
+      return false;
+
+    CPU = Name;
+    return true;
+  }
+
+private:
+  std::string CPU;
 };
 } // end anonymous namespace.
 

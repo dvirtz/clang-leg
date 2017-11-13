@@ -1756,6 +1756,7 @@ static std::string getCPUName(const ArgList &Args, const llvm::Triple &T,
     return TargetCPUName;
   }
 
+  case llvm::Triple::leg:
   case llvm::Triple::sparc:
   case llvm::Triple::sparcel:
   case llvm::Triple::sparcv9:
