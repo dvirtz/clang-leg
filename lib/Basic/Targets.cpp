@@ -7522,7 +7522,7 @@ class LEGTargetInfo : public TargetInfo {
 public:
   LEGTargetInfo(const llvm::Triple &Triple) : TargetInfo(Triple) {
     BigEndian = false;
-    NoAsmVariants = true;
+    NoAsmVariants = false;
     LongLongAlign = 32;
     SuitableAlign = 32;
     DoubleAlign = LongDoubleAlign = 32;

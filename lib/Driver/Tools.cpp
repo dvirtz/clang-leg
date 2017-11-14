@@ -4032,6 +4032,10 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
   case llvm::Triple::wasm64:
     AddWebAssemblyTargetArgs(Args, CmdArgs);
     break;
+
+  case llvm::Triple::leg:
+    AddLegTargetArgs(Args, CmdArgs);
+    break;
   }
 
   // The 'g' groups options involve a somewhat intricate sequence of decisions
@@ -6813,6 +6817,20 @@ const char *Clang::getDependencyFileName(const ArgList &Args,
     Res = getBaseInputStem(Args, Inputs);
   }
   return Args.MakeArgString(Res + ".d");
+}
+
+void Clang::AddLegTargetArgs(const llvm::opt::ArgList &Args,
+                             llvm::opt::ArgStringList &CmdArgs) const {
+  Arg *A = Args.getLastArg(options::OPT_march_EQ, options::OPT_mcpu_EQ);
+
+  // Select the default CPU if none was given.
+  if (!A) {
+    return;
+  }
+
+  CmdArgs.push_back("-mllvm");
+  CmdArgs.push_back(
+      Args.MakeArgString(Twine("-leg-asm-type=") + A->getValue()));
 }
 
 void cloudabi::Linker::ConstructJob(Compilation &C, const JobAction &JA,
